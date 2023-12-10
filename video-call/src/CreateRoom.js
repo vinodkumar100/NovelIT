@@ -11,22 +11,29 @@ import { ref, set } from "firebase/database";
 
 function CreateRoom(props) {
     const { setIsCallHosted } = props;
+    
+    // State variables for managing room creation and joining
 
     const [isRoomNew, setIsRoomNew] = useState(true);
     const [newRoomID, setNewRoomID] = useState();
     const [joinRoomID, setJoinRoomID] = useState();
 
+    // useEffect to set a new room ID when the component mounts
+    
     useEffect(() => {
         let date=new Date();
         setNewRoomID(Math.floor(date.getTime() / 1000));
       }, []);
 
+      // Function to handle room creation
       function onCreateClick() {
         localStorage.setItem("chat",JSON.stringify({
             roomId:newRoomID,
             status:"active",
             isHost:isRoomNew
         }))
+    // Setting up initial chat data in Firebase database
+
         set(ref(database, 'chat/' + newRoomID), {
           original: "",
           transulation: "",
@@ -37,7 +44,10 @@ function CreateRoom(props) {
 
       }
 
+      // Function to handle joining an existing room
       function onJoinClick() {
+
+        // Saving room details in local storage
         localStorage.setItem("chat",JSON.stringify({
             roomId:joinRoomID,
             status:"active",

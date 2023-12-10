@@ -39,6 +39,7 @@ function CallView(props) {
 
     SpeechRecognition.startListening({ continuous: true });
 
+    // Array of languages for translation and defining their names and id
     const languages=[
         {
             id:"en",
@@ -60,6 +61,7 @@ function CallView(props) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    // Speech recognition hooks and effect to fetch initial transcription
 
     const {
         transcript,
@@ -75,8 +77,9 @@ function CallView(props) {
             setTranscription(data.original);
         });
       }, []);
-
-
+      
+    // Function to translate text using an API
+    
     const translateText = async (text, targetLanguage) => {        
         // const hostUrl=window.location.origin;
         const url = `${hostUrl}/api/translate/translate`;
@@ -89,6 +92,9 @@ function CallView(props) {
         );
         return response.data;
     };
+    
+    
+    // Function to continuously translate speech and update state
 
     const translateContinuousText = async () => {
         const translatedText = await translateText(transcript, language);
@@ -124,8 +130,8 @@ function CallView(props) {
             <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
                 <AgoraUIKit styleProps={{}}
                     rtcProps={{
-                        appId: 'b6507a18c8b347239dd00d217624c8b2',
-                        channel: 'channel1',
+                        appId: '1cef003dda144474a3d3610510a34be3',
+                        channel: 'channel10',
                         token: token.agoraToken,
                         role: isHost ? 'host' : 'audience',
                         layout: true,
